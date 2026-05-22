@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 
 def draw_static_map(graph):
+    plt.rcParams['toolbar'] = 'None'
     fig, ax = plt.subplots(figsize=(10, 7))
     
     # Pour dessiner les connexions

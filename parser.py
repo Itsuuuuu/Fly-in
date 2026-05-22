@@ -3,6 +3,8 @@ from zone import Zone, ZoneType
 from typing import Tuple
 from connection import Connection
 import sys
+import os
+
 
 
 class Parser:
@@ -69,6 +71,10 @@ class Parser:
         nb = 0
         has_start_hub = False
         has_end_hub = False
+
+        if not os.path.exists(filename):
+            print(f"\033[91mError: map not found, usage: make run maps/.../... .txt\033[0m")
+            sys.exit(0)
         try:
             with open(filename, 'r') as file:
                 for line in file:
@@ -89,6 +95,10 @@ class Parser:
                                 raise ValueError(
                                     f"Number of drones must be > 1, got {nb}"
                                     )
+                            if nb > 9999:
+                                raise ValueError(
+                                    "Drones's number too hight, 9999 is max"
+                                )
                         except ValueError as e:
                             print(f"Error parsing nb_drones: {e}!")
                             sys.exit(1)
