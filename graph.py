@@ -21,7 +21,8 @@ class Graph:
 
     # Permet de créer une pince qui fouille dans le sac en vrac
     # des différentes connecions.
-    def get_connection(self, zone_a, zone_b):
+    def get_connection(
+            self, zone_a: Zone, zone_b: Zone) -> Optional[Connection]:
         for connection in self.connections:
             if ((connection.zone_a == zone_a and
                     connection.zone_b == zone_b) or

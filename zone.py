@@ -32,4 +32,4 @@ class Zone:
         self.max_drone = max_drones
 
         self.current_drones = 0
-        self.neighbors = []
+        self.neighbors: list['Zone'] = []

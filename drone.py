@@ -1,5 +1,6 @@
 from zone import Zone, ZoneType
-from typing import List
+from graph import Graph
+from typing import List, Optional
 
 
 class Drone:
@@ -22,19 +23,22 @@ class Drone:
         self.step_index = 0
         self.waiting_ticks = 0
 
-    def get_next_zone(self):
+    def get_next_zone(self) -> Optional[Zone]:
         if self.step_index + 1 < len(self.path):
             return self.path[self.step_index + 1]
+        return None
 
-    def move_to_next(self, graph):
+    def move_to_next(self, graph: Graph) -> bool:
         if self.waiting_ticks > 0:
             self.waiting_ticks -= 1
             return False
 
         next_zone = self.get_next_zone()
-        conn = graph.get_connection(self.current_zone, next_zone)
-
         if next_zone:
+            conn = graph.get_connection(self.current_zone, next_zone)
+            if conn is None:
+                return False
+
             if next_zone.zone_type == ZoneType.BLOCKED:
                 return False
 

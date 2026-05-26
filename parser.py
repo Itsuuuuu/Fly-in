@@ -6,7 +6,6 @@ import sys
 import os
 
 
-
 class Parser:
     def parse_zone(self, line: str) -> Zone:
         # Detecter [
@@ -21,14 +20,14 @@ class Parser:
         try:
             x = int(hub_data[2])
         except ValueError:
-            print(f"Error parsing: coordonate x can't be negative")
+            print("Error parsing: coordonate x can't be negative")
             sys.exit(1)
         try:
             y = int(hub_data[3])
         except ValueError:
-            print(f"Error parsing: coordonate x can't be negative")
+            print("Error parsing: coordonate x can't be negative")
             sys.exit(1)
-       
+
         # Extraire métadonnées
         dict_meta_data = {}
         if start_data != -1:
@@ -38,7 +37,9 @@ class Parser:
                 if '=' in data:
                     key, value = data.split('=')
                     if key in dict_meta_data:
-                        print(f"Parsing error: duplicate metadata '{key}' found!")
+                        print(
+                            f"Parsing error: duplicate metadata '{key}' found!"
+                        )
                         sys.exit(1)
                     dict_meta_data[key] = value
 
@@ -48,10 +49,16 @@ class Parser:
         try:
             max_drones = int(max_drones_str)
         except ValueError:
-            print(f"Parsing error: 'max_drones' must be an integer, got '{max_drones_str}'")
+            print(
+                "Parsing error: 'max_drones' must " +
+                f"be an integer, got '{max_drones_str}'"
+                )
             sys.exit(1)
         if max_drones <= 0:
-            print(f"Parsing error: 'max_drones' must be a positive integer, got '{max_drones}'")
+            print(
+                  "Parsing error: 'max_drones' must be a positive " +
+                  f"integer, got '{max_drones}'"
+                )
             sys.exit(1)
 
         zone_type_str = dict_meta_data.get('zone', 'normal')
@@ -73,7 +80,10 @@ class Parser:
         has_end_hub = False
 
         if not os.path.exists(filename):
-            print(f"\033[91mError: map not found, usage: make run maps/.../... .txt\033[0m")
+            print(
+                "\033[91mError: map not found," +
+                "usage: make run maps/.../... .txt\033[0m"
+            )
             sys.exit(0)
         try:
             with open(filename, 'r') as file:
@@ -156,18 +166,30 @@ class Parser:
                                 if '=' in data:
                                     key, value = data.split('=')
                                     if key in dict_connexion_meta:
-                                        print(f"Parsing error: duplicate metadata '{key}' found")
+                                        print(
+                                            "Parsing error: duplicate" +
+                                            f" metadata '{key}' found"
+                                        )
                                         sys.exit(1)
                                     dict_connexion_meta[key] = value
-                        capacity_str = dict_connexion_meta.get('max_link_capacity', '1')
+                        capacity_str = (
+                            dict_connexion_meta.get('max_link_capacity', '1')
+                        )
                         try:
                             capacity = int(capacity_str)
                         except ValueError:
-                            print(f"Parsing error: 'max_link_capacity' must be an integer, got '{capacity_str}'")
+                            print(
+                                "Parsing error: 'max_link_capacity'" +
+                                f" must be an integer, got '{capacity_str}'"
+                            )
                             sys.exit(1)
-                        
+
                         if capacity <= 0:
-                            print(f"Parsing error: 'max_link_capacity' must be a positive integer, got'{capacity}'")
+                            print(
+                                "Parsing error: 'max_link_capacity'" +
+                                " must be a positive integer, " +
+                                f"got '{capacity}'"
+                            )
                             sys.exit(1)
 
                         connection = Connection(
@@ -187,6 +209,9 @@ class Parser:
             print(f"Error {filename} not found")
             sys.exit(1)
         if graph.start is None or graph.end is None:
-            print(f"Parsing error: 'start_hub' or 'end_hub' is missing in the map")
+            print(
+                "Parsing error: 'start_hub' or " +
+                "'end_hub' is missing in the map"
+            )
             sys.exit(1)
         return nb, graph
